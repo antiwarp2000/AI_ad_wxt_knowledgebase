@@ -1,0 +1,2 @@
+# AI_ad_wxt_knowledgebase
+for万相台投放知识库，便于后续AI模型调用分析
