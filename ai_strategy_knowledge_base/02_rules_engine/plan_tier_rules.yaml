@@ -1,0 +1,77 @@
+﻿version: 1
+name: 万相台广告计划分层规则
+scope: 昨日正在跑的广告计划
+priority_order:
+  - 止损计划
+  - 黄金计划
+  - 潜力计划
+  - 问题计划
+  - 观察计划
+inputs:
+  required:
+    - spend
+    - gmv
+    - impressions
+    - clicks
+    - orders
+  optional:
+    - target_roi
+    - account_avg_roi
+    - account_avg_ctr
+    - account_avg_cvr
+    - account_avg_cpc
+    - budget
+fallbacks:
+  target_roi: account_avg_roi
+  ctr_baseline: account_avg_ctr
+  cvr_baseline: account_avg_cvr
+  cpc_baseline: account_avg_cpc
+rules:
+  黄金计划:
+    description: ROI 明显优于目标且转化稳定，可优先放量。
+    all:
+      - roi >= target_roi * 1.2
+      - orders > 0
+      - cvr >= cvr_baseline * 0.9
+    actions:
+      - 预算增加 10%-30%，避免一次性大幅拉升。
+      - 保持当前高转化人群/关键词，优先复制成功结构。
+      - 检查预算是否撞线，若撞线则优先扩预算。
+  潜力计划:
+    description: ROI 接近目标或有转化基础，适合继续观察和精细优化。
+    all:
+      - roi >= target_roi * 0.8
+      - roi < target_roi * 1.2
+      - orders > 0
+    actions:
+      - 保持预算，优先优化 CTR/CVR 短板。
+      - 对高点击低转化流量做定向和落地页排查。
+      - 观察 2-3 天趋势后决定是否放量。
+  止损计划:
+    description: 明显亏损或有花费无成交，应先控费止损。
+    any:
+      - roi < target_roi * 0.5
+      - spend > 0 and orders == 0
+    actions:
+      - 立即降低预算或暂停计划。
+      - 排查流量精准度、商品承接、价格竞争力。
+      - 不建议在未找到原因前继续加预算。
+  问题计划:
+    description: 链路指标异常，先诊断再调整。
+    any:
+      - impressions == 0
+      - impressions > 0 and clicks == 0
+      - clicks > 0 and orders == 0
+      - ctr < ctr_baseline * 0.7
+      - cvr < cvr_baseline * 0.7
+      - cpc > cpc_baseline * 1.5
+      - roi < target_roi * 0.8
+    actions:
+      - 根据异常链路进入决策树排查。
+      - 优先处理展现、点击、转化链路中最靠前的问题。
+      - 记录调整动作，隔日复盘效果。
+  观察计划:
+    description: 数据不足或暂未触发强规则，进入观察池。
+    actions:
+      - 保持当前设置，补足样本量。
+      - 若连续 2-3 天无改善，再升级为问题计划。

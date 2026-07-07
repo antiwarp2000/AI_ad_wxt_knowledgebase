@@ -1,0 +1,27 @@
+﻿{
+  "description": "广告计划诊断输入结构",
+  "type": "object",
+  "required": ["date", "plan_id", "plan_name", "spend", "gmv", "impressions", "clicks", "orders"],
+  "properties": {
+    "date": { "type": "string", "description": "诊断日期，通常为昨日" },
+    "plan_id": { "type": "string" },
+    "plan_name": { "type": "string" },
+    "scene": { "type": "string", "description": "投放场景，如上新快、货品加速、活动加速" },
+    "spend": { "type": "number" },
+    "gmv": { "type": "number" },
+    "impressions": { "type": "number" },
+    "clicks": { "type": "number" },
+    "orders": { "type": "number" },
+    "budget": { "type": "number" },
+    "target_roi": { "type": "number" },
+    "benchmarks": {
+      "type": "object",
+      "properties": {
+        "account_avg_roi": { "type": "number" },
+        "account_avg_ctr": { "type": "number" },
+        "account_avg_cvr": { "type": "number" },
+        "account_avg_cpc": { "type": "number" }
+      }
+    }
+  }
+}

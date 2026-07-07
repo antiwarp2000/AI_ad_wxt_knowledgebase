@@ -1,0 +1,27 @@
+﻿version: 1
+name: 万相台计划健康度评分规则
+score_dimensions:
+  roi:
+    healthy: roi >= target_roi
+    warning: roi >= target_roi * 0.8 and roi < target_roi
+    unhealthy: roi < target_roi * 0.8
+  ctr:
+    healthy: ctr >= ctr_baseline
+    warning: ctr >= ctr_baseline * 0.7 and ctr < ctr_baseline
+    unhealthy: ctr < ctr_baseline * 0.7
+  cvr:
+    healthy: cvr >= cvr_baseline
+    warning: cvr >= cvr_baseline * 0.7 and cvr < cvr_baseline
+    unhealthy: cvr < cvr_baseline * 0.7
+  cpc:
+    healthy: cpc <= cpc_baseline
+    warning: cpc > cpc_baseline and cpc <= cpc_baseline * 1.5
+    unhealthy: cpc > cpc_baseline * 1.5
+  budget_usage:
+    healthy: budget_usage >= 0.7 and budget_usage <= 0.95
+    warning: budget_usage >= 0.5 and budget_usage < 0.7
+    unhealthy: budget_usage < 0.5 or budget_usage > 0.95
+summary:
+  healthy_plan: healthy_dimensions >= 4
+  warning_plan: healthy_dimensions >= 2 and healthy_dimensions < 4
+  unhealthy_plan: healthy_dimensions < 2

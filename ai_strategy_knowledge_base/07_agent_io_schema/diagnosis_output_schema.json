@@ -1,0 +1,33 @@
+﻿{
+  "description": "广告计划诊断输出结构",
+  "type": "object",
+  "required": ["plan_id", "plan_name", "tier", "diagnosis", "actions"],
+  "properties": {
+    "plan_id": { "type": "string" },
+    "plan_name": { "type": "string" },
+    "tier": { "type": "string", "enum": ["黄金计划", "潜力计划", "止损计划", "问题计划", "观察计划"] },
+    "diagnosis": {
+      "type": "object",
+      "properties": {
+        "main_issue": { "type": "string" },
+        "root_cause_path": { "type": "array", "items": { "type": "string" } },
+        "evidence": { "type": "array", "items": { "type": "string" } },
+        "risk_level": { "type": "string", "enum": ["低", "中", "高"] }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": { "type": "string" },
+          "priority": { "type": "string", "enum": ["P0", "P1", "P2", "P3"] },
+          "expected_effect": { "type": "string" },
+          "review_after": { "type": "string" }
+        }
+      }
+    },
+    "rag_references": { "type": "array", "items": { "type": "string" } },
+    "case_references": { "type": "array", "items": { "type": "string" } }
+  }
+}
