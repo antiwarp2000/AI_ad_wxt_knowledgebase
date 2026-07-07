@@ -27,7 +27,8 @@
         }
       }
     },
-    "rag_references": { "type": "array", "items": { "type": "string" } },
+    "strategy_doc_references": { "type": "array", "items": { "type": "string" } },
     "case_references": { "type": "array", "items": { "type": "string" } }
   }
 }
+
